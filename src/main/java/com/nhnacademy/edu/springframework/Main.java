@@ -1,8 +1,8 @@
 package com.nhnacademy.edu.springframework;
 
 import com.nhnacademy.edu.springframework.domain.User;
-import com.nhnacademy.edu.springframework.service.MessageSendService;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import com.nhnacademy.edu.springframework.service.MessageSender;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Main {
 
@@ -11,9 +11,10 @@ public class Main {
     public static void main(String[] args) {
         User user = new User("email", "phoneNumber");
 
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("com.nhnacademy.edu.springframework");
-        MessageSendService messageSendService = context.getBean("messageSendService", MessageSendService.class);
+        try(ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beans.xml")) {
+            MessageSender dooray = context.getBean("doorayMessageSender", MessageSender.class);
 
-        messageSendService.doSendMessage(user, MESSAGE);
+            dooray.sendMessage(user, MESSAGE);
+        }
     }
 }
