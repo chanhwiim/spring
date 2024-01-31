@@ -29,6 +29,8 @@ public class DoorayMessageSenderTest {
         User user = new User("email", "phoneNumber");
         String message = "test message";
 
-        verify(doorayHookSender, times(0)).send(any());
+        messageSender.sendMessage(user, message);
+
+        verify(doorayHookSender, times(1)).send(any());
     }
 }
