@@ -1,5 +1,6 @@
 package com.nhnacademy.edu.springframework;
 
+import com.nhn.dooray.client.DoorayHook;
 import com.nhn.dooray.client.DoorayHookSender;
 import com.nhnacademy.edu.springframework.domain.User;
 import com.nhnacademy.edu.springframework.service.impl.DoorayMessageSender;
@@ -9,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class DoorayMessageSenderTest {
@@ -22,6 +24,7 @@ public class DoorayMessageSenderTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        doNothing().when(doorayHookSender).send(any(DoorayHook.class));
     }
 
     @Test
@@ -29,8 +32,7 @@ public class DoorayMessageSenderTest {
         User user = new User("email", "phoneNumber");
         String message = "test message";
 
-        messageSender.sendMessage(user, message);
-
-        verify(doorayHookSender, times(1)).send(any());
+        assertTrue(messageSender.sendMessage(user, message));
+        verify(doorayHookSender).send(any(DoorayHook.class));
     }
 }

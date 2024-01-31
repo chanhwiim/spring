@@ -1,18 +1,13 @@
 package com.nhnacademy.edu.springframework.config;
 
 import com.nhn.dooray.client.DoorayHookSender;
-import com.nhnacademy.edu.springframework.annotation.Dooray;
-import com.nhnacademy.edu.springframework.service.impl.DoorayMessageSender;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @EnableAspectJAutoProxy(proxyTargetClass = true)
-@ComponentScan(basePackages = {"com.nhnacademy.edu.springframework"})
-//@PropertySource("classpath:Sender.")
 public class DoorayConfig {
 
     @Bean
@@ -20,10 +15,5 @@ public class DoorayConfig {
         String uri = "https://hook.dooray.com/services/3204376758577275363/3727553265487230503/DIiyr9z0ROKJksd5yMFedQ";
         RestTemplate restTemplate = new RestTemplate();
         return new DoorayHookSender(restTemplate, uri);
-    }
-
-    @Bean(name = "doorayMessageSender")
-    public DoorayMessageSender doorayMessageSender(@Dooray("doorayHookSender") DoorayHookSender doorayHookSender) {
-        return new DoorayMessageSender(doorayHookSender);
     }
 }
